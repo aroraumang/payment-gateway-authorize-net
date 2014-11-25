@@ -152,6 +152,10 @@ class AuthorizeNetTransaction:
             self.state = 'failed'
             self.save()
             TransactionLog.serialize_and_create(self, exc.full_response)
+        except AuthorizeInvalidError, exc:
+            self.state = 'failed'
+            self.save()
+            TransactionLog.serialize_and_create(self, unicode(exc))
         else:
             self.state = 'authorized'
             self.provider_reference = str(result.transaction_response.trans_id)
@@ -175,6 +179,10 @@ class AuthorizeNetTransaction:
             self.state = 'failed'
             self.save()
             TransactionLog.serialize_and_create(self, exc.full_response)
+        except AuthorizeInvalidError, exc:
+            self.state = 'failed'
+            self.save()
+            TransactionLog.serialize_and_create(self, unicode(exc))
         else:
             self.state = 'completed'
             self.provider_reference = str(result.transaction_response.trans_id)
@@ -249,6 +257,10 @@ class AuthorizeNetTransaction:
             self.state = 'failed'
             self.save()
             TransactionLog.serialize_and_create(self, exc.full_response)
+        except AuthorizeInvalidError, exc:
+            self.state = 'failed'
+            self.save()
+            TransactionLog.serialize_and_create(self, unicode(exc))
         else:
             self.state = 'completed'
             self.provider_reference = str(result.transaction_response.trans_id)
